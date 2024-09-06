@@ -3,8 +3,8 @@ import json
 
 
 sever_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sever_socket.bind(('0.0.0.0', 12345))
 
+sever_socket.bind(('0.0.0.0', 12345))
 sever_socket.listen(100)
 
 
@@ -27,10 +27,11 @@ while True:
         print('Client connected:', client_id)
         print('Info:', json_data['result'])
         print('Total clients:', len(clients))
-        
-        
+    
+    
     if json_data['cmd'] == 'ls_clients':
         # lấy danh sách client còn kết nối
+        print('Kiểm tra client còn kết nối')
         for i, client in enumerate(clients):
             try:
                 client.sendall(json.dumps({
@@ -39,7 +40,6 @@ while True:
             except:
                 clients.pop(i)
                 info_clients.pop(i)
-            
         # gửi danh sách client còn kết nối
         client_socket.sendall(json.dumps({
             'cmd': 'ls_clients',
@@ -47,10 +47,7 @@ while True:
         }).encode())
         
         
-        
-        
-        
-        
+
     if json_data['cmd'] == 'python':
         client_run = json_data['clients']
         for client_id in client_run:
