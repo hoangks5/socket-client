@@ -48,7 +48,7 @@ client_socket.sendall(json_command.encode())
 
 while True:
     try:
-        data = client_socket.recv(1024).decode()
+        data = client_socket.recv(1024*1024).decode()
         json_data = json.loads(data)
         print(json_data)
         if json_data['cmd'] == 'ls_clients':
