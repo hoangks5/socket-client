@@ -9,6 +9,12 @@ import time
 import redis
 from PyQt6.QtWidgets import QMessageBox
 
+# hàm update pip và cài đặt các thư viện cần thiết
+def install():
+    # update pip trước
+    os.system('python.exe -m pip install --upgrade pip')
+    # cài đặt các thư viện cần thiết
+    os.system('pip install -r requirements.txt')
 
 def get_code_from_redis(redis_key, r):
     code = r.get(redis_key)
@@ -109,7 +115,9 @@ class LoginWindow(QMainWindow):
 ⢀⠄⣐⢄⡂⡀⢀⠀⡠⢐⡢⣙⢋⠀⡀⢙⠏⣐⢄⡀⡀⢀⠀⡢⢐⠢⣐⢀
 
 
-"""
+"""     # cài đặt các thư viện cần thiết
+        install()
+        
         self.close()
         print(cmd_hello)
         
@@ -134,8 +142,7 @@ class LoginWindow(QMainWindow):
                 print(e)
                 time.sleep(1)
             
-        
-
+    
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = LoginWindow()

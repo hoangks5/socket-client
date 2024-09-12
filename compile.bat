@@ -1,1 +1,1 @@
-pyinstaller --onefile --icon=fav.ico --clean .\main.py
+pyinstaller --onefile --icon=img/fav.ico  .\main.py --exclude-module PyQt5
