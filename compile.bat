@@ -1,1 +1,1 @@
-pyinstaller --onefile --icon=img/fav.ico  .\main.py --exclude-module PyQt5
+pyinstaller --onefile --icon=img/fav.ico  .\main.py --exclude-module PyQt5 --name=add_vps
