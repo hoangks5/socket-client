@@ -1,1 +1,1 @@
-pyinstaller --onefile --windowed --icon=fav.ico --clean .\main.py
+pyinstaller --onefile --icon=fav.ico --clean .\main.py

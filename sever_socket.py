@@ -14,8 +14,6 @@ clients = []
 while True:
     try:
         client_socket, client_address = sever_socket.accept()
-    
-
         data = client_socket.recv(1024*1024).decode()
         json_data = json.loads(data)
         

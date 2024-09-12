@@ -12,23 +12,23 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(311, 173)
+        MainWindow.resize(365, 231)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("img/logo-iart.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("QWidget{\n"
 "background-color: rgb(0, 0, 0);\n"
+"color: rgb(204, 83, 51)\n"
 "}\n"
 "QMessageBox{\n"
-"background-color: rgb(255, 255, 255,0);\n"
-"    color: rgb(255, 255, 0);\n"
+"color: rgb(204, 83, 51)\n"
 "}\n"
 "QPushButton{\n"
 "border-radius:10px;\n"
 "border: 2px solid #23074d;\n"
 "background-color: #cc5333;\n"
 "color:#FFB6C1;\n"
-"height: 40px;\n"
+"height: 50px;\n"
 "width: 120px;\n"
 "}\n"
 "\n"
@@ -44,21 +44,47 @@ class Ui_MainWindow(object):
 "background-color: rgb(220, 220, 220);\n"
 "border-radius: 10px;\n"
 "    color: rgb(34, 0, 52);\n"
+"height: 50px;\n"
 "}\n"
 "")
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.pushButton = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(100, 100, 111, 41))
-        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.pushButton.setObjectName("pushButton")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.gridLayout_2 = QtWidgets.QGridLayout()
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.gridLayout_2.addItem(spacerItem, 0, 0, 1, 1)
+        self.lineEdit_2 = QtWidgets.QLineEdit(parent=self.centralwidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.lineEdit_2.setFont(font)
+        self.lineEdit_2.setText("")
+        self.lineEdit_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.gridLayout_2.addWidget(self.lineEdit_2, 1, 0, 1, 1)
         self.lineEdit = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(30, 40, 251, 41))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.lineEdit.setFont(font)
+        self.lineEdit.setText("")
         self.lineEdit.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit.setObjectName("lineEdit")
+        self.gridLayout_2.addWidget(self.lineEdit, 2, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.gridLayout_2.addItem(spacerItem1, 3, 0, 1, 1)
+        self.gridLayout_3.addLayout(self.gridLayout_2, 0, 0, 1, 1)
+        self.gridLayout = QtWidgets.QGridLayout()
+        self.gridLayout.setObjectName("gridLayout")
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.gridLayout.addItem(spacerItem2, 0, 0, 1, 1)
+        self.pushButton = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton, 0, 1, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.gridLayout.addItem(spacerItem3, 0, 2, 1, 1)
+        self.gridLayout_3.addLayout(self.gridLayout, 1, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -67,9 +93,9 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Iart VPSControl Pro"))
+        self.lineEdit_2.setPlaceholderText(_translate("MainWindow", "Redis Cache"))
+        self.lineEdit.setPlaceholderText(_translate("MainWindow", "Socket Adress"))
         self.pushButton.setText(_translate("MainWindow", "Connect"))
-        self.lineEdit.setText(_translate("MainWindow", "3.18.29.6:12345"))
-        self.lineEdit.setPlaceholderText(_translate("MainWindow", "Địa chỉ socket"))
 
 
 if __name__ == "__main__":
