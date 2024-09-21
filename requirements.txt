@@ -1,7 +1,0 @@
-pyautogui
-keyboard
-undetected_chromedriver
-pillow
-numpy
-opencv-python
-pandas
