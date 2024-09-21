@@ -8,108 +8,9 @@ import socket
 import json
 import os
 import requests
-from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
-import sys
 import time
 import redis
-from PyQt6 import QtCore, QtGui, QtWidgets
 
-
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(365, 231)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/logo-iart.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        MainWindow.setWindowIcon(icon)
-        MainWindow.setStyleSheet("QWidget{\n"
-"background-color: rgb(0, 0, 0);\n"
-"color: rgb(204, 83, 51)\n"
-"}\n"
-"QMessageBox{\n"
-"color: rgb(204, 83, 51)\n"
-"}\n"
-"QPushButton{\n"
-"border-radius:10px;\n"
-"border: 2px solid #23074d;\n"
-"background-color: #cc5333;\n"
-"color:#FFB6C1;\n"
-"height: 50px;\n"
-"width: 120px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    border: 2px solid #009fff ;\n"
-"    background-color:#23074d;\n"
-"            }\n"
-"QPushButton:pressed {\n"
-"                background-color: #5650de; /* Màu nền khi nhấn */\n"
-"            }\n"
-"\n"
-"QLineEdit{\n"
-"background-color: rgb(220, 220, 220);\n"
-"border-radius: 10px;\n"
-"    color: rgb(34, 0, 52);\n"
-"height: 50px;\n"
-"}\n"
-"")
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.centralwidget)
-        self.gridLayout_3.setObjectName("gridLayout_3")
-        self.gridLayout_2 = QtWidgets.QGridLayout()
-        self.gridLayout_2.setObjectName("gridLayout_2")
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.gridLayout_2.addItem(spacerItem, 0, 0, 1, 1)
-        self.lineEdit_2 = QtWidgets.QLineEdit(parent=self.centralwidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.lineEdit_2.setFont(font)
-        self.lineEdit_2.setText("")
-        self.lineEdit_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.gridLayout_2.addWidget(self.lineEdit_2, 1, 0, 1, 1)
-        self.lineEdit = QtWidgets.QLineEdit(parent=self.centralwidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.lineEdit.setFont(font)
-        self.lineEdit.setText("")
-        self.lineEdit.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.lineEdit.setObjectName("lineEdit")
-        self.gridLayout_2.addWidget(self.lineEdit, 2, 0, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.gridLayout_2.addItem(spacerItem1, 3, 0, 1, 1)
-        self.gridLayout_3.addLayout(self.gridLayout_2, 0, 0, 1, 1)
-        self.gridLayout = QtWidgets.QGridLayout()
-        self.gridLayout.setObjectName("gridLayout")
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.gridLayout.addItem(spacerItem2, 0, 0, 1, 1)
-        self.pushButton = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout.addWidget(self.pushButton, 0, 1, 1, 1)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.gridLayout.addItem(spacerItem3, 0, 2, 1, 1)
-        self.gridLayout_3.addLayout(self.gridLayout, 1, 0, 1, 1)
-        MainWindow.setCentralWidget(self.centralwidget)
-
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Iart VPSControl Pro"))
-        self.lineEdit_2.setPlaceholderText(_translate("MainWindow", "Redis Cache"))
-        self.lineEdit.setPlaceholderText(_translate("MainWindow", "Socket Adress"))
-        self.pushButton.setText(_translate("MainWindow", "Connect"))
-
-
-# hàm update pip và cài đặt các thư viện cần thiết
-def install():
-    # update pip trước
-    os.system('python.exe -m pip install --upgrade pip')
-    # cài đặt các thư viện cần thiết
-    os.system('pip install -r requirements.txt')
 
 def get_code_from_redis(redis_key, r):
     code = r.get(redis_key)
@@ -134,66 +35,39 @@ def run_code(redis_key, r):
     with open('temp.py', 'w', encoding='utf-8') as f:
         f.write(code)
     # chạy code
-    os.system('python temp.py')
+    # tạo một cmd mới để chạy code
+    os.system('cmd /c python temp.py')
     
-class LoginWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        self.ui.pushButton.clicked.connect(self.connect)
-        self.load_config()
-        
-    def load_config(self):
-        # kiểm tra file config.json có tồn tại không
-        if not os.path.exists('config.json'):
-            return
-        with open('config.json', 'r', encoding='utf-8') as f:
-            data = json.loads(f.read())
-            self.ui.lineEdit.setText(f"{data['ip_socket']}:{data['port_socket']}")
-            self.ui.lineEdit_2.setText(f"{data['ip_redis']}:{data['port_redis']}")
-              
-    def connect(self):
-        if self.ui.lineEdit.text() == '' or self.ui.lineEdit_2.text() == '':
-            QMessageBox.critical(self, 'Error', 'Vui lòng nhập đầy đủ thông tin')
-            return
-        
-        ip_socket = self.ui.lineEdit.text().split(':')[0]
-        port_socket = int(self.ui.lineEdit.text().split(':')[1])
-        ip_redis = self.ui.lineEdit_2.text().split(':')[0]
-        port_redis = int(self.ui.lineEdit_2.text().split(':')[1])
-        self.r = redis.Redis(host=ip_redis, port=port_redis, db=0)
-        
-        # lưu thông tin vào file config
-        with open('config.json', 'w', encoding='utf-8') as f:
-            f.write(json.dumps({
-                'ip_socket': ip_socket,
-                'port_socket': port_socket,
-                'ip_redis': ip_redis,
-                'port_redis': port_redis
-            }))
-        
-        
-        server_address = (ip_socket, port_socket)
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect(server_address)
-        ip_info = get_ip_info()
-        command = {
-            'cmd': 'add',
-            'result': {
-                'name': os.name,
-                'ip': ip_info['ip'],
-                'city': ip_info['city'],
-                'country': ip_info['country'],
-                'hostname': ip_info['hostname'],
-                'lat': ip_info['lat'],
-                'lon': ip_info['lon']
-            }
+            
+def connect():
+    # đọc thông tin từ file config
+    with open('config.json', 'r', encoding='utf-8') as f:
+        data = json.loads(f.read())
+        ip_socket = data['ip_socket']
+        port_socket = int(data['port_socket'])
+        ip_redis = data['ip_redis']
+        port_redis = int(data['port_redis'])
+    r = redis.Redis(host=ip_redis, port=port_redis, db=0)
+    server_address = (ip_socket, port_socket)
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect(server_address)
+    ip_info = get_ip_info()
+    command = {
+        'cmd': 'add',
+        'result': {
+            'name': os.name,
+            'ip': ip_info['ip'],
+            'city': ip_info['city'],
+            'country': ip_info['country'],
+            'hostname': ip_info['hostname'],
+            'lat': ip_info['lat'],
+            'lon': ip_info['lon']
         }
-        json_command = json.dumps(command)
-        client_socket.sendall(json_command.encode())
+    }
+    json_command = json.dumps(command)
+    client_socket.sendall(json_command.encode())
 
-        cmd_hello = f"""
+    cmd_hello = f"""
 🚀🚀🚀 Máy chủ {command['result']['hostname']} đã tham gia hệ thống thành công 🚀🚀🚀
 
 
@@ -211,35 +85,40 @@ class LoginWindow(QMainWindow):
 
 
 """     # cài đặt các thư viện cần thiết
-        install()
-        
-        self.close()
-        print(cmd_hello)
-        
-        while True:
-            try:
-                data = client_socket.recv(1024*1024).decode()
-                json_data = json.loads(data)
-                print(json_data)
-                if json_data['cmd'] == 'ls_clients':
-                    print('List clients:', json_data['result'])
-                if json_data['cmd'] == 'python':
-                    redis_key = json_data['redis_key']
-                    print('Run code:', json_data['redis_key'])
-                    run_code(redis_key, self.r)
-                if json_data['cmd'] == 'ping':
-                    client_socket.sendall(json.dumps({
-                        'cmd': 'pong'
-                    }).encode())
-                if json_data['cmd'] == 'exit':
-                    break
-            except Exception as e:
-                print(e)
-                time.sleep(1)
+    print(cmd_hello)  
+    while True:
+        try:
+            data = client_socket.recv(1024*1024).decode()
+            json_data = json.loads(data)
+            print(json_data)
+            if json_data['cmd'] == 'ls_clients':
+                print('List clients:', json_data['result'])
+            if json_data['cmd'] == 'python':
+                redis_key = json_data['redis_key']
+                print('Run code:', json_data['redis_key'])
+                run_code(redis_key, r)
+            if json_data['cmd'] == 'ping':
+                client_socket.sendall(json.dumps({
+                    'cmd': 'pong'
+                }).encode())
+            if json_data['cmd'] == 'exit':
+                break
+        except Exception as e:
+            print(e)
+            time.sleep(1)
+            # đóng kết nối
+            client_socket.close()
+            return connect()
             
-    
+            
+            
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = LoginWindow()
-    window.show()
-    sys.exit(app.exec())
+    try:
+        connect()
+    except Exception as e:
+        print(e)
+        time.sleep(100)
+        
+                
+                
+                
